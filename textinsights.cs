@@ -23,10 +23,8 @@ namespace oneclickai
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string cognitive_service_key = Environment.GetEnvironmentVariable("text_analytics_api_key");
-            string cognitive_service_endpoint = Environment.GetEnvironmentVariable("text_analytics_endpoint");
-            cognitive_service_key = "8c88c59bed99405ca857cc531a1fd105";
-            cognitive_service_endpoint = "https://centralindia.api.cognitive.microsoft.com";
+            string cognitive_service_key = Environment.GetEnvironmentVariable("cognitive_service_key");
+            string cognitive_service_endpoint = Environment.GetEnvironmentVariable("cognitive_service_endpoint");
 
             int SentencesToSummarize = 3;
 

@@ -117,7 +117,7 @@
   "outputs": {
     "function_url": {
       "type": "object",
-      "value": "[listsecrets(resourceId('Microsoft.Web/sites/functions', variables('functionAppName'), 'textinsights'),'2015-08-01').trigger_url]"
+      "value": "[concat(variables('functionAppName'),'.azurewebsites.net/api/textinsights')]"
     }
   }
 }
