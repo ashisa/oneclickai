@@ -22,7 +22,7 @@ namespace oneclickai
         {
             VisualFeatureTypes.Categories, VisualFeatureTypes.Description,
             VisualFeatureTypes.Faces, VisualFeatureTypes.ImageType,
-            VisualFeatureTypes.Tags
+            VisualFeatureTypes.Tags, VisualFeatureTypes.Brands, VisualFeatureTypes.Categories
         };
 
         [FunctionName("analyzeimage")]
@@ -36,6 +36,7 @@ namespace oneclickai
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string imageURL = data.imageurl;
+            imageURL = "https://i.pinimg.com/736x/1a/89/b0/1a89b08e06b0cfe2d8282fad5237ad8f.jpg";
 
             dynamic result = new JObject();
 
@@ -48,39 +49,55 @@ namespace oneclickai
             computerVision.Endpoint = cognitive_service_endpoint;
 
             // Analyzing image from remote URL
-            var t1 = AnalyzeRemoteAsync(computerVision, imageURL, log);
-
-
-            return imageURL != null
-                ? (ActionResult)new OkObjectResult($"{result.ToString()}")
-                : new BadRequestObjectResult("{ \"error\": \"Please pass the text input for the text analytics operations\"");
-        }
-        private static async Task AnalyzeRemoteAsync(
-            ComputerVisionClient computerVision, string imageUrl, ILogger log)
-        {
-            if (!Uri.IsWellFormedUriString(imageUrl, UriKind.Absolute))
+            if (!Uri.IsWellFormedUriString(imageURL, UriKind.Absolute))
             {
                 log.LogError(
-                    "\nInvalid remoteImageUrl:\n{0} \n", imageUrl);
-                return;
-            }
-
-            ImageAnalysis analysis =
-                await computerVision.AnalyzeImageAsync(imageUrl, features);
-            DisplayResults(analysis, imageUrl, log);
-        }
-
-        // Display the most relevant caption for the image
-        private static void DisplayResults(ImageAnalysis analysis, string imageUri, ILogger log)
-        {
-            if (analysis.Description.Captions.Count != 0)
-            {
-                log.LogInformation(analysis.Description.Captions[0].Text + "\n");
+                    "\nInvalid remoteImageUrl:\n{0} \n", imageURL);
+                log.LogInformation("invalid image URL provided.");
             }
             else
             {
-                log.LogInformation("No description generated.");
+                ImageAnalysis analysis = new ImageAnalysis();
+                try
+                {
+                    analysis = await computerVision.AnalyzeImageAsync(imageURL, features);
+
+                    result.caption = "";
+                    if (analysis.Description.Captions.Count != 0)
+                    {
+                        result.caption = analysis.Description.Captions[0].Text;
+                    }
+
+                    dynamic brands = new JArray();
+                    if (analysis.Brands.Count != 0)
+                    {
+                        foreach (var brand in analysis.Brands)
+                        {
+                            brands.Add(brand.Name);
+                        }
+                        result.brands = brands;
+                    }
+
+                    dynamic categories = new JArray();
+                    if (analysis.Categories.Count != 0)
+                    {
+                        foreach (var category in analysis.Categories)
+                        {
+                            categories.Add(category.Name);
+                        }
+                        result.categories = categories;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    string exception = ex.Message;
+                }
             }
+
+            return imageURL != null
+                ? (ActionResult)new OkObjectResult($"{result.ToString()}")
+                : new BadRequestObjectResult("{ \"error\": \"Please pass a valid image URL in the request\"");
         }
     }
 }
