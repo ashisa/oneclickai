@@ -115,9 +115,13 @@
     }
   ],
   "outputs": {
-    "function_url": {
-      "type": "object",
+    "Text Insights": {
+      "type": "string",
       "value": "[concat(variables('functionAppName'),'.azurewebsites.net/api/textinsights')]"
+    },
+    "Analyze Image": {
+      "type": "string",
+      "value": "[concat(variables('functionAppName'),'.azurewebsites.net/api/analyzeimage')]"
     }
   }
 }
