@@ -23,10 +23,10 @@ namespace oneclickai
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string textAnalyticsAPIKey = Environment.GetEnvironmentVariable("text_analytics_api_key");
-            string textAnalyticsEndpoint = Environment.GetEnvironmentVariable("text_analytics_endpoint");
-            textAnalyticsAPIKey = "8c88c59bed99405ca857cc531a1fd105";
-            textAnalyticsEndpoint = "https://centralindia.api.cognitive.microsoft.com";
+            string cognitive_service_key = Environment.GetEnvironmentVariable("text_analytics_api_key");
+            string cognitive_service_endpoint = Environment.GetEnvironmentVariable("text_analytics_endpoint");
+            cognitive_service_key = "8c88c59bed99405ca857cc531a1fd105";
+            cognitive_service_endpoint = "https://centralindia.api.cognitive.microsoft.com";
 
             int SentencesToSummarize = 3;
 
@@ -34,10 +34,10 @@ namespace oneclickai
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string inputText = data.text;
 
-            var credentials = new ApiKeyServiceClientCredentials(textAnalyticsAPIKey);
+            var credentials = new ApiKeyServiceClientCredentials(cognitive_service_key);
             var client = new TextAnalyticsClient(credentials)
             {
-                Endpoint = textAnalyticsEndpoint
+                Endpoint = cognitive_service_endpoint
             };
 
             dynamic result = new JObject();
