@@ -15,6 +15,7 @@
     "hostingPlanName": "[concat(parameters('appName'), '-plan')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]",
     "location": "[resourceGroup().location]",
+    "functionappid": "[concat(resourceGroup().id,'/providers/','Microsoft.Web/sites/functions/', variables('functionAppName'))]",
     "cognitiveservicesid": "[concat(resourceGroup().id,'/providers/','Microsoft.CognitiveServices/accounts/', variables('cognitiveServiceAccount'))]"
   },
   "resources": [
@@ -114,5 +115,9 @@
       ]
     }
   ],
-  "outputs": {}
+  "outputs": {
+      "One click Text Insights URL": {
+      "type": "String",
+      "value": "[listSecrets(variables('functionappid'),'2018-11-01')]"
+    }}
 }
