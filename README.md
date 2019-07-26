@@ -9,4 +9,6 @@ The scenarios are inspired by the asks that come our way from customers and part
 
 With help of ARM template, we also provide reference architectures utilizing industry best practices to minimize costs and provide scale as the core tenets of this project.
 
-Get started with **OneClick** - [![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fashisa%2Foneclickai%2Fmaster%2Fazuredeploy.json)
+Get started with **OneClick** - 
+
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fashisa%2Foneclickai%2Fmaster%2Fazuredeploy.json)
