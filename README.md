@@ -1,5 +1,5 @@
 # oneclickai
-**One click AI solution accelerators powered by Azure AI services**
+**One click AI solution accelerators powered with Azure AI services**
 
 Working with partners, we come across demand for AI features and while we have a bunch of services to make it possible, there still is a learning curve. With this project, we aim to make integration of Azure AI services as effortless as **One Click**.
 
