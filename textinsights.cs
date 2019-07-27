@@ -26,7 +26,7 @@ namespace oneclickai
             string cognitive_service_key = Environment.GetEnvironmentVariable("cognitive_service_key");
             string cognitive_service_endpoint = Environment.GetEnvironmentVariable("cognitive_service_endpoint");
 
-            int SentencesToSummarize = 3;
+            int SentencesToSummarize = 4;
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);

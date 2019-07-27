@@ -22,7 +22,7 @@ namespace oneclickai
         {
             VisualFeatureTypes.Categories, VisualFeatureTypes.Description,
             VisualFeatureTypes.Faces, VisualFeatureTypes.ImageType,
-            VisualFeatureTypes.Tags, VisualFeatureTypes.Brands, VisualFeatureTypes.Categories
+            VisualFeatureTypes.Tags, VisualFeatureTypes.Brands
         };
 
         [FunctionName("analyzeimage")]
@@ -36,7 +36,7 @@ namespace oneclickai
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string imageURL = data.imageurl;
-            imageURL = "https://i.pinimg.com/736x/1a/89/b0/1a89b08e06b0cfe2d8282fad5237ad8f.jpg";
+            //imageURL = "https://i.pinimg.com/736x/1a/89/b0/1a89b08e06b0cfe2d8282fad5237ad8f.jpg";
 
             dynamic result = new JObject();
 
@@ -62,12 +62,14 @@ namespace oneclickai
                 {
                     analysis = await computerVision.AnalyzeImageAsync(imageURL, features);
 
+                    // Getting caption
                     result.caption = "";
                     if (analysis.Description.Captions.Count != 0)
                     {
                         result.caption = analysis.Description.Captions[0].Text;
                     }
 
+                    // Getting brands
                     dynamic brands = new JArray();
                     if (analysis.Brands.Count != 0)
                     {
@@ -78,6 +80,7 @@ namespace oneclickai
                         result.brands = brands;
                     }
 
+                    // Getting categories
                     dynamic categories = new JArray();
                     if (analysis.Categories.Count != 0)
                     {
@@ -88,6 +91,34 @@ namespace oneclickai
                         result.categories = categories;
                     }
 
+                    // Getting faces
+                    dynamic faces = new JArray();
+                    if (analysis.Faces.Count != 0)
+                    {
+                        dynamic faceObject = new JObject();
+                        foreach (var face in analysis.Faces)
+                        {
+                            faceObject.rectangle = face.FaceRectangle;
+                            faceObject.age = face.Age;
+                            faceObject.gender = face.Gender;
+                            faces.Add(faceObject);
+                        }
+                        result.faces = faces;
+                    }
+
+                    // Getting tags
+                    dynamic tags = new JArray();
+                    if (analysis.Tags.Count != 0)
+                    {
+                        dynamic tagObject = new JObject();
+                        foreach (var tag in analysis.Tags)
+                        {
+                            tagObject.name = tag.Name;
+                            tagObject.hint = tag.Hint;
+                            tags.Add(tagObject);
+                        }
+                        result.tags = tags;
+                    }
                 }
                 catch (Exception ex)
                 {
