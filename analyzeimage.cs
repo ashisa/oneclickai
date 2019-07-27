@@ -36,7 +36,7 @@ namespace oneclickai
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string imageURL = data.imageurl;
-            //imageURL = "https://i.pinimg.com/736x/1a/89/b0/1a89b08e06b0cfe2d8282fad5237ad8f.jpg";
+            //imageURL = "https://www.thehansindia.com/assets/9583_rahul-modi.jpg";
 
             dynamic result = new JObject();
 
@@ -76,9 +76,12 @@ namespace oneclickai
                         dynamic faceObject = new JObject();
                         foreach (var face in analysis.Faces)
                         {
-                            faceObject.rectangle = face.FaceRectangle;
+                            faceObject.rectangle = $"({face.FaceRectangle.Height.ToString()}, " +
+                                $"{face.FaceRectangle.Left.ToString()}, " +
+                                $"{face.FaceRectangle.Top.ToString()}, " +
+                                $"{face.FaceRectangle.Width.ToString()})";
                             faceObject.age = face.Age;
-                            faceObject.gender = face.Gender;
+                            faceObject.gender = face.Gender.ToString();
                             faces.Add(faceObject);
                         }
                     }
