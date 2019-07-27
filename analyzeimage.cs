@@ -69,28 +69,6 @@ namespace oneclickai
                         result.caption = analysis.Description.Captions[0].Text;
                     }
 
-                    // Getting brands
-                    dynamic brands = new JArray();
-                    if (analysis.Brands.Count != 0)
-                    {
-                        foreach (var brand in analysis.Brands)
-                        {
-                            brands.Add(brand.Name);
-                        }
-                    }
-                    result.brands = brands;
-
-                    // Getting categories
-                    dynamic categories = new JArray();
-                    if (analysis.Categories.Count != 0)
-                    {
-                        foreach (var category in analysis.Categories)
-                        {
-                            categories.Add(category.Name);
-                        }
-                    }
-                    result.categories = categories;
-
                     // Getting faces
                     dynamic faces = new JArray();
                     if (analysis.Faces.Count != 0)
@@ -105,6 +83,28 @@ namespace oneclickai
                         }
                     }
                     result.faces = faces;
+
+                    // Getting categories
+                    dynamic categories = new JArray();
+                    if (analysis.Categories.Count != 0)
+                    {
+                        foreach (var category in analysis.Categories)
+                        {
+                            categories.Add(category.Name);
+                        }
+                    }
+                    result.categories = categories;
+
+                    // Getting brands
+                    dynamic brands = new JArray();
+                    if (analysis.Brands.Count != 0)
+                    {
+                        foreach (var brand in analysis.Brands)
+                        {
+                            brands.Add(brand.Name);
+                        }
+                    }
+                    result.brands = brands;
 
                     // Getting tags
                     dynamic tags = new JArray();
