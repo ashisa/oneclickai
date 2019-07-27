@@ -77,8 +77,8 @@ namespace oneclickai
                         {
                             brands.Add(brand.Name);
                         }
-                        result.brands = brands;
                     }
+                    result.brands = brands;
 
                     // Getting categories
                     dynamic categories = new JArray();
@@ -88,8 +88,8 @@ namespace oneclickai
                         {
                             categories.Add(category.Name);
                         }
-                        result.categories = categories;
                     }
+                    result.categories = categories;
 
                     // Getting faces
                     dynamic faces = new JArray();
@@ -103,22 +103,19 @@ namespace oneclickai
                             faceObject.gender = face.Gender;
                             faces.Add(faceObject);
                         }
-                        result.faces = faces;
                     }
+                    result.faces = faces;
 
                     // Getting tags
                     dynamic tags = new JArray();
                     if (analysis.Tags.Count != 0)
                     {
-                        dynamic tagObject = new JObject();
                         foreach (var tag in analysis.Tags)
                         {
-                            tagObject.name = tag.Name;
-                            tagObject.hint = tag.Hint;
-                            tags.Add(tagObject);
+                            tags.Add(tag.Name);
                         }
-                        result.tags = tags;
                     }
+                    result.tags = tags;
                 }
                 catch (Exception ex)
                 {
