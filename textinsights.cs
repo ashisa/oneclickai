@@ -25,8 +25,6 @@ namespace oneclickai
         {
             string cognitive_service_key = Environment.GetEnvironmentVariable("cognitive_service_key");
             string cognitive_service_endpoint = Environment.GetEnvironmentVariable("cognitive_service_endpoint");
-            if (cognitive_service_key == null) cognitive_service_key = localsettings.cognitive_service_key;
-            if (cognitive_service_endpoint == null) cognitive_service_endpoint = localsettings.cognitive_service_endpoint;
 
             int SentencesToSummarize = 3;
 
