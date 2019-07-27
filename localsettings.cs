@@ -1,0 +1,6 @@
+namespace oneclickai
+{
+    class localsettings
+    {
+    }
+}
