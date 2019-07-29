@@ -71,6 +71,7 @@ namespace oneclickai
 
                     // Getting faces
                     dynamic faces = new JArray();
+                    dynamic celebrities = new JArray();
                     if (analysis.Faces.Count != 0)
                     {
                         foreach (var face in analysis.Faces)
@@ -84,8 +85,19 @@ namespace oneclickai
                             faceObject.gender = face.Gender.ToString();
                             faces.Add(faceObject);
                         }
+
+                        var celebRecognition = await computerVision.AnalyzeImageByDomainAsync("celebrities", imageURL);
+                        dynamic celebResult = JsonConvert.DeserializeObject(celebRecognition.Result.ToString());
+                        if (celebResult.celebrities.Count > 1)
+                        {
+                            foreach (var celeb in celebResult.celebrities)
+                            {
+                                celebrities.Add(celeb);
+                            }
+                        }
                     }
                     result.faces = faces;
+                    result.celebrities = celebrities;
 
                     // Getting categories
                     dynamic categories = new JArray();
