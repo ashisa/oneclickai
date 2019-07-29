@@ -22,7 +22,7 @@ namespace oneclickai
         {
             VisualFeatureTypes.Categories, VisualFeatureTypes.Description,
             VisualFeatureTypes.Faces, VisualFeatureTypes.ImageType,
-            VisualFeatureTypes.Tags, VisualFeatureTypes.Brands
+            VisualFeatureTypes.Tags, VisualFeatureTypes.Brands, VisualFeatureTypes.Objects
         };
 
         [FunctionName("analyzeimage")]
@@ -73,12 +73,12 @@ namespace oneclickai
                     dynamic faces = new JArray();
                     if (analysis.Faces.Count != 0)
                     {
-                        dynamic faceObject = new JObject();
                         foreach (var face in analysis.Faces)
                         {
-                            faceObject.rectangle = $"({face.FaceRectangle.Height.ToString()}, " +
-                                $"{face.FaceRectangle.Left.ToString()}, " +
+                            dynamic faceObject = new JObject();
+                            faceObject.rectangle = $"({face.FaceRectangle.Left.ToString()}, " +
                                 $"{face.FaceRectangle.Top.ToString()}, " +
+                                $"{face.FaceRectangle.Height.ToString()}, " +
                                 $"{face.FaceRectangle.Width.ToString()})";
                             faceObject.age = face.Age;
                             faceObject.gender = face.Gender.ToString();
@@ -108,6 +108,23 @@ namespace oneclickai
                         }
                     }
                     result.brands = brands;
+
+                    // Getting objects
+                    dynamic objects = new JArray();
+                    if (analysis.Objects.Count != 0)
+                    {
+                        foreach (var objectItem in analysis.Objects)
+                        {
+                            dynamic objObject = new JObject();
+                            objObject.name = objectItem.ObjectProperty;
+                            objObject.rectangle = $"({objectItem.Rectangle.X.ToString()}, " +
+                                $"{objectItem.Rectangle.Y.ToString()}, " +
+                                $"{objectItem.Rectangle.H.ToString()}, " +
+                                $"{objectItem.Rectangle.W.ToString()})";
+                            objects.Add(objObject);
+                        }
+                    }
+                    result.objects = objects;
 
                     // Getting tags
                     dynamic tags = new JArray();
